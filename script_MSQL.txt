@@ -65,8 +65,8 @@ CREATE TABLE ProdutoXVendedor(
 CREATE TABLE ProdutoXPedido(
 	Produto_idProduto INT,
 	Pedido_idPedido INT,
-	prod_quantidade UNSIGNED INT NOT NULL,
-	status ENUM("disponivel","fora_de_estoque"),
+	prod_quantidade UNSIGNED INT DEFAULT 1,
+	status ENUM("disponivel","fora_de_estoque") DEFAULT "disponivel",
 	CONSTRAINT pk_ProdutoXPedido PRIMARY KEY (Produto_idProduto,Pedido_idPedido),
 	CONSTRAINT fk_Produto_ProdutoXPedido FOREIGN KEY REFERENCES Produto(idProduto),
 	CONSTRAINT fk_Pedido_ProdutoXPedido FOREIGN KEY REFERENCES Pedido(idPedido)
