@@ -4,4 +4,4 @@ banco de dados MYSQL para e-commerce
 
 esquema em MYSQL workbench:
 
-![esquema](image-2.png)
+![esquema](image.png)
