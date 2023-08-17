@@ -1,4 +1,6 @@
-CREATE DATABASE E-COMMERCE
+CREATE DATABASE E_COMMERCE;
+
+USE E_COMMERCE;
 
 CREATE TABLE Estoque(
 	idEstoque INT PRIMARY KEY AUTO_INCREMENT,
@@ -17,7 +19,7 @@ CREATE TABLE Cliente(
 
 CREATE TABLE Pedido(
 	idPedido INT PRIMARY KEY AUTO_INCREMENT,
-	status ENUM("esperando_pagamento","processando","cancelado","enviado","entregue") DEFAULT "processando",
+	status ENUM("esperando_pagamento","processando","cancelado","enviado","entregue") DEFAULT "esperando_pagamento",
 	descricao VARCHAR(45) NOT NULL,
 	frete FLOAT(5,2) DEFAULT 0 ,
 	valor_pedido FLOAT(6,2) NOT NULL,
@@ -29,11 +31,11 @@ CREATE TABLE Pedido(
 
 CREATE TABLE Produto(
 	idProduto INT PRIMARY KEY AUTO_INCREMENT,
-	categoria ENUM("eletronico","vestimenta","briquedo","alimento","moveis") DEFAULT "outros" NOT NULL,
+	categoria ENUM("eletronico","vestimenta","brinquedo","alimento","moveis","outros") DEFAULT "outros" NOT NULL,
 	avaliacao FLOAT,
-	tamanho ENUM("pequeno","medio","grande"),
+	tamanho VARCHAR(30),
 	descricao VARCHAR(45) NOT NULL,
-	valor_venda FLOAT(5,2) NOT NULL,
+	valor_venda FLOAT(5,2) NOT NULL
 );
 
 CREATE TABLE Fornecedor(
@@ -58,18 +60,18 @@ CREATE TABLE ProdutoXVendedor(
 	Vendedor_idVendedor INT,
 	prod_quantidade INT UNSIGNED NOT NULL,
 	CONSTRAINT pk_ProdutoXVendedor PRIMARY KEY (Produto_idProduto,Vendedor_idVendedor),
-	CONSTRAINT fk_Produto_ProdutoXVendedor FOREIGN KEY REFERENCES Produto(idProduto),
-	CONSTRAINT fk_Vendedor_ProdutoXVendedor FOREIGN KEY REFERENCES Vendedor(idVendedor)
+	CONSTRAINT fk_Produto_ProdutoXVendedor FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
+	CONSTRAINT fk_Vendedor_ProdutoXVendedor FOREIGN KEY (Vendedor_idVendedor) REFERENCES Vendedor(idVendedor)
 );
 
 CREATE TABLE ProdutoXPedido(
 	Produto_idProduto INT,
 	Pedido_idPedido INT,
-	prod_quantidade UNSIGNED INT DEFAULT 1,
+	prod_quantidade INT UNSIGNED  DEFAULT 1,
 	status ENUM("disponivel","fora_de_estoque") DEFAULT "disponivel",
 	CONSTRAINT pk_ProdutoXPedido PRIMARY KEY (Produto_idProduto,Pedido_idPedido),
-	CONSTRAINT fk_Produto_ProdutoXPedido FOREIGN KEY REFERENCES Produto(idProduto),
-	CONSTRAINT fk_Pedido_ProdutoXPedido FOREIGN KEY REFERENCES Pedido(idPedido)
+	CONSTRAINT fk_Produto_ProdutoXPedido FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
+	CONSTRAINT fk_Pedido_ProdutoXPedido FOREIGN KEY (Pedido_idPedido) REFERENCES Pedido(idPedido)
 );
 
 CREATE TABLE FornecedorXProduto(
@@ -77,8 +79,8 @@ CREATE TABLE FornecedorXProduto(
 	Fornecedor_idFornecedor INT,
 	valor_compra FLOAT (5,2) NOT NULL,
 	CONSTRAINT pk_FornecedorXProduto PRIMARY KEY (produto_idProduto,Fornecedor_idFornecedor),
-	CONSTRAINT fk_Fornecedor_FornecedorXProduto FOREIGN KEY REFERENCES Fornecedor(idFornecedor),
-	CONSTRAINT fk_Produto_FornecedorXProduto FOREIGN KEY REFERENCES Produto(idProduto)
+	CONSTRAINT fk_Fornecedor_FornecedorXProduto FOREIGN KEY (Fornecedor_idFornecedor) REFERENCES Fornecedor(idFornecedor),
+	CONSTRAINT fk_Produto_FornecedorXProduto FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto)
 );
 
 CREATE TABLE ProdutoXEstoque(
@@ -86,6 +88,6 @@ CREATE TABLE ProdutoXEstoque(
 	Estoque_idEstoque INT,
 	prod_quantidade INT UNSIGNED NOT NULL,
 	CONSTRAINT pk_ProdutoXEstoque PRIMARY KEY (Produto_idProduto,Estoque_idEstoque),
-	CONSTRAINT fk_Produto_ProdutoXEstoque FOREIGN KEY REFERENCES Produto(idProduto),
-	CONSTRAINT fk_Estoque_ProdutoXEstoque FOREIGN KEY REFERENCES Estoque(idEstoque)
+	CONSTRAINT fk_Produto_ProdutoXEstoque FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
+	CONSTRAINT fk_Estoque_ProdutoXEstoque FOREIGN KEY (Estoque_idEstoque) REFERENCES Estoque(idEstoque)
 );
