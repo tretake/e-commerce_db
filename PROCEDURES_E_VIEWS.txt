@@ -1,0 +1,27 @@
+/*PROCEDURE E VIEWS*/
+
+
+
+
+
+
+DELIMITER $
+CREATE PROCEDURE registrar_Produto(
+p_categoria enum('eletronico','vestimenta','brinquedo','alimento','moveis','outros'),
+p_tamanho VARCHAR(30),
+p_descricao VARCHAR(45),
+p_valor_venda FLOAT(6,2),
+p_valor_compra FLOAT(6,2),
+p_fornecedor INT)
+BEGIN
+
+	INSERT INTO Produto (categoria,avaliacao,tamanho,descricao,valor_venda) VALUES
+	(p_categoria,0,p_tamanho,p_descricao,p_valor_venda);
+	
+	SET @id_produto = LAST_INSERT_ID();
+	
+	INSERT INTO fornecedorxproduto (Produto_idProduto,Fornecedor_idFornecedor,valor_compra) VALUES
+	(@id_produto , p_fornecedor,p_valor_compra);
+END
+$
+DELIMITER ;

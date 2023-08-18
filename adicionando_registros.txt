@@ -1,6 +1,6 @@
 /*adicionando registros*/
 
-
+--clientes
 INSERT INTO CLIENTE (nome,sobrenome,cpf,endereco,email,data_nascimento) VALUES
 ("haru","lourenco",11279517425,"niteroi - RJ" , "joao.sobreira.vieira@gmail.com" ,'2000-08-20'),
 ("Quelem","Góis",95205573054,"São José do Rio Pardo - SP","Quelem.Góis@gmail.com",'1973-08-30'),
@@ -206,4 +206,65 @@ INSERT INTO CLIENTE (nome,sobrenome,cpf,endereco,email,data_nascimento) VALUES
 
 
 
-INSERT INTO Produto ()
+--fornecedores
+INSERT INTO fornecedor (razao_social,nome_fantasia,CNPJ,email,telefone) VALUES
+("Samsung Electronics Company Limited" , "samsung" , "00.280.273/0002-18" , "samsung@sansung.com" , "1992752574"),
+("Microsoft Corporation" , "microsoft" , "32.064.001/0001-96" , "microsoft@microsoft.com" , "9469934100"),
+("Apple Inc." , "apple" , "62.520.988/0001-77" , "apple@apple.com" , "7603051740"),
+("Sony Group Corporation" , "sony" , "87.780.676/0001-23" , "sony@sony.com" , "3539866445"),
+("Nintendo Co., Ltd." , "nintendo" , "51.212.587/0001-33" , "nintendo@nintendo.com" , "6950479601"),
+("LG Electronics" , "LG" , "47.280.330/0001-41" , "LG@LG.com" , "7814270333"),
+("Fluke Corporation" , "FLUKE" , "24.234.389/0001-06" , "FLUKE@FLUKE.com" , "8804694819"),
+("Shein" , "Shein" , "68.343.836/0001-22" , "Shein@Shein.com" , "1388415066"),
+("Nestlé S.A." , "Nestle" , "81.251.242/0001-50" , "Nestle@Nestle.com" , "6697346948"),
+("Honda Motor Company, Ltd." , "Honda" , "92.468.139/0001-82" , "Honda@Honda.com" , "4518531275"),
+("C&A Modas S.A" , "C&A" , "86.881.327/0001-35" , "C&A@C&A.com" , "4075385732");
+
+
+
+
+
+
+
+
+
+
+
+
+/*id Fornecedores
++--------------+-------------------------------------+---------------+--------------------+-------------------------+------------+
+| idFornecedor | razao_social                        | nome_fantasia | CNPJ               | email                   | telefone   |
++--------------+-------------------------------------+---------------+--------------------+-------------------------+------------+
+|            1 | Samsung Electronics Company Limited | samsung       | 00.280.273/0002-18 | samsung@sansung.com     | 1992752574 |
+|            2 | Microsoft Corporation               | microsoft     | 32.064.001/0001-96 | microsoft@microsoft.com | 9469934100 |
+|            3 | Apple Inc.                          | apple         | 62.520.988/0001-77 | apple@apple.com         | 7603051740 |
+|            4 | Sony Group Corporation              | sony          | 87.780.676/0001-23 | sony@sony.com           | 3539866445 |
+|            5 | Nintendo Co., Ltd.                  | nintendo      | 51.212.587/0001-33 | nintendo@nintendo.com   | 6950479601 |
+|            6 | LG Electronics                      | LG            | 47.280.330/0001-41 | LG@LG.com               | 7814270333 |
+|            7 | Fluke Corporation                   | FLUKE         | 24.234.389/0001-06 | FLUKE@FLUKE.com         | 8804694819 |
+|            8 | Shein                               | Shein         | 68.343.836/0001-22 | Shein@Shein.com         | 1388415066 |
+|            9 | Nestlé S.A.                         | Nestle        | 81.251.242/0001-50 | Nestle@Nestle.com       | 6697346948 |
+|           10 | Honda Motor Company, Ltd.           | Honda         | 92.468.139/0001-82 | Honda@Honda.com         | 4518531275 |
+|           11 | C&A Modas S.A                       | C&A           | 86.881.327/0001-35 | C&A@C&A.com             | 4075385732 |
++--------------+-------------------------------------+---------------+--------------------+-------------------------+------------+
+*/
+
+--                      categoria  ,tamanho  ,descricao                         ,valor_venda, valor_compra, idFornecedor
+call registrar_Produto('eletronico','pequeno','fone de ouvido bluetooth samsung',300.00     , 250.00      , 1);
+call registrar_Produto('eletronico','grande','Smart Tv 50'' 4k Uhd 50cu7700 2023 Preta', 2300.00 , 2000.00, 1);
+
+call registrar_Produto('eletronico','pequeno','controle xbox one',250.00, 200.00, 2);
+call registrar_Produto('eletronico','medio','xbox one console',3000.00, 2500.00, 2);
+
+call registrar_Produto('eletronico','medio','macbook',5000.00, 4000.00, 3);
+call registrar_Produto('eletronico','pequeno','earbuds apple',400.00, 350.00, 3);
+
+call registrar_Produto('eletronico','medio','playstaion 5 console',4000.00, 3500.00, 4);
+call registrar_Produto('eletronico','pequeno','controle playstaion 5 ',300.00, 250.00, 4);
+
+
+
+
+
+
+

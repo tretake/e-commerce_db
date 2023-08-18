@@ -11,3 +11,9 @@ cidades = city('SP')
 
 for cidade in cidades:
     print(cidade)
+
+
+cidades = city('RJ')
+
+for cidade in cidades:
+    print(cidade)
