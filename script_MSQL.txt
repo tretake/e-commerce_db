@@ -2,10 +2,57 @@ CREATE DATABASE E_COMMERCE;
 
 USE E_COMMERCE;
 
-CREATE TABLE Estoque(
-	idEstoque INT PRIMARY KEY AUTO_INCREMENT,
+
+CREATE TABLE Produto(
+	idProduto INT PRIMARY KEY AUTO_INCREMENT,
+	categoria ENUM("eletronico","vestimenta","brinquedo","alimento","moveis","outros") DEFAULT "outros" NOT NULL,
+	avaliacao FLOAT,
+	tamanho VARCHAR(30),
+	descricao VARCHAR(45) NOT NULL,
+	valor_venda FLOAT(5,2) NOT NULL
+);
+
+--LOJA_FISICA----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE Loja(
+	idLoja INT PRIMARY KEY AUTO_INCREMENT,
+	razao_social VARCHAR(45) NOT NULL,
+	nome_fantasia VARCHAR(45) NOT NULL,
+	CNPJ VARCHAR(14) NOT NULL UNIQUE,
+	email VARCHAR(45) NOT NULL UNIQUE,
+	telefone VARCHAR(45) NOT NULL UNIQUE,
 	endereco VARCHAR(60) NOT NULL
 );
+
+CREATE TABLE Venda(
+	idVenda INT PRIMARY KEY AUTO_INCREMENT,
+	modo_pagamento ENUM("pix","credito","debito","dinhero"),
+	valor_pedido FLOAT(6,2) NOT NULL,
+	data_pedido DATE NOT NULL,
+	Loja_idLoja INT,
+	CONSTRAINT fk_Loja_Venda FOREIGN KEY (Loja_idLoja) REFERENCES Loja(idLoja)
+);
+
+CREATE TABLE ProdutoXVenda(
+	Venda_idVenda INT,
+	Produto_idProduto INT,
+	prod_quantidade INT UNSIGNED  DEFAULT 1,
+	CONSTRAINT pk_ProdutoXVenda PRIMARY KEY (Venda_idVenda,Produto_idProduto),
+	CONSTRAINT fk_Venda_ProdutoXVenda FOREIGN KEY (Venda_idVenda) REFERENCES Venda(idVenda),
+	CONSTRAINT fk_Produto_ProdutoXVenda FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto)
+);
+
+
+CREATE TABLE ProdutoXLoja(
+	Produto_idProduto INT ,
+	Loja_idLoja INT,
+	prod_quantidade INT UNSIGNED NOT NULL,
+	CONSTRAINT pk_ProdutoXLoja PRIMARY KEY (Produto_idProduto,Loja_idLoja),
+	CONSTRAINT fk_Produto_ProdutoXLoja FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
+	CONSTRAINT fk_Loja_ProdutoXLoja FOREIGN KEY (Loja_idLoja) REFERENCES Loja(idLoja)
+);
+
+--LOJA_ONLINE----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE Cliente(
 	idCliente INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,15 +76,21 @@ CREATE TABLE Pedido(
 	CONSTRAINT fk_Cliente_Pedido FOREIGN KEY (Cliente_idCliente) REFERENCES Cliente(idCliente)
 );
 
+CREATE TABLE ProdutoXPedido(
+	Produto_idProduto INT,
+	Pedido_idPedido INT,
+	prod_quantidade INT UNSIGNED  DEFAULT 1,
+	status ENUM("disponivel","fora_de_estoque") DEFAULT "disponivel",
+	CONSTRAINT pk_ProdutoXPedido PRIMARY KEY (Produto_idProduto,Pedido_idPedido),
+	CONSTRAINT fk_Produto_ProdutoXPedido FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
+	CONSTRAINT fk_Pedido_ProdutoXPedido FOREIGN KEY (Pedido_idPedido) REFERENCES Pedido(idPedido)
+);
 
+--ESTOQUE/FORNECEDOR----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CREATE TABLE Produto(
-	idProduto INT PRIMARY KEY AUTO_INCREMENT,
-	categoria ENUM("eletronico","vestimenta","brinquedo","alimento","moveis","outros") DEFAULT "outros" NOT NULL,
-	avaliacao FLOAT,
-	tamanho VARCHAR(30),
-	descricao VARCHAR(45) NOT NULL,
-	valor_venda FLOAT(5,2) NOT NULL
+CREATE TABLE Estoque(
+	idEstoque INT PRIMARY KEY AUTO_INCREMENT,
+	endereco VARCHAR(60) NOT NULL
 );
 
 CREATE TABLE Fornecedor(
@@ -47,33 +100,6 @@ CREATE TABLE Fornecedor(
 	CNPJ VARCHAR(14) NOT NULL UNIQUE,
 	email VARCHAR(60) NOT NULL,
 	telefone VARCHAR (20) NOT NULL
-);
-
-CREATE TABLE Vendedor(
-	idVendedor INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(45) NOT NULL,
-	nome_fantasia VARCHAR(45) NOT NULL,
-	CNPJ VARCHAR(14) NOT NULL UNIQUE,
-	endereco VARCHAR(60) NOT NULL
-);
-
-CREATE TABLE ProdutoXVendedor(
-	Produto_idProduto INT ,
-	Vendedor_idVendedor INT,
-	prod_quantidade INT UNSIGNED NOT NULL,
-	CONSTRAINT pk_ProdutoXVendedor PRIMARY KEY (Produto_idProduto,Vendedor_idVendedor),
-	CONSTRAINT fk_Produto_ProdutoXVendedor FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
-	CONSTRAINT fk_Vendedor_ProdutoXVendedor FOREIGN KEY (Vendedor_idVendedor) REFERENCES Vendedor(idVendedor)
-);
-
-CREATE TABLE ProdutoXPedido(
-	Produto_idProduto INT,
-	Pedido_idPedido INT,
-	prod_quantidade INT UNSIGNED  DEFAULT 1,
-	status ENUM("disponivel","fora_de_estoque") DEFAULT "disponivel",
-	CONSTRAINT pk_ProdutoXPedido PRIMARY KEY (Produto_idProduto,Pedido_idPedido),
-	CONSTRAINT fk_Produto_ProdutoXPedido FOREIGN KEY (Produto_idProduto) REFERENCES Produto(idProduto),
-	CONSTRAINT fk_Pedido_ProdutoXPedido FOREIGN KEY (Pedido_idPedido) REFERENCES Pedido(idPedido)
 );
 
 CREATE TABLE FornecedorXProduto(
