@@ -24,9 +24,11 @@ CREATE TABLE Pedido(
 	frete FLOAT(5,2) DEFAULT 0 ,
 	valor_pedido FLOAT(6,2) NOT NULL,
 	modo_pagamento ENUM("pix","boleto","credito","debito","dinhero"),
+	data_pedido DATE NOT NULL,
 	Cliente_idCliente INT ,
 	CONSTRAINT fk_Cliente_Pedido FOREIGN KEY (Cliente_idCliente) REFERENCES Cliente(idCliente)
 );
+
 
 
 CREATE TABLE Produto(
